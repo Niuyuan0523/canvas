@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">    
+    <title>test</title>
+	<script type="text/javascript" src="./js/jquery_2_1_4.js"></script>
+
+</head>
+<body>
+    <div style="width:1100px;height:700px;background-color:#f2f2f2;">
+        <canvas id="myCanvas" width="1000" height="600"></canvas>
+    </div>
+
+    <script>
+        var c=document.getElementById("myCanvas");
+        var ctx=c.getContext("2d");
+        ctx.beginPath();
+        ctx.moveTo(100,100);
+        ctx.lineTo(900,100);
+        ctx.lineWidth=10;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(100,300);
+        ctx.lineTo(900,300);
+        ctx.lineWidth=10;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(300,300);
+        ctx.quadraticCurveTo(300,200,400,200);
+        ctx.quadraticCurveTo(500,200,500,100);
+        ctx.lineWidth=1.5;
+        ctx.strokeStyle = "#f00";//线条的颜色
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(600,300);
+        ctx.quadraticCurveTo(600,200,550,200);
+        ctx.quadraticCurveTo(500,200,500,100);
+        ctx.lineWidth=1.5;
+        ctx.strokeStyle = "#00f";//线条的颜色
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(500,100);
+        ctx.lineTo(500,80);
+        ctx.lineWidth=1.5;
+        ctx.strokeStyle = "#00f";//线条的颜色
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.moveTo(500,80);
+        ctx.lineTo(495,90);
+        ctx.lineTo(505,90);
+        ctx.closePath();
+        ctx.fill();
+
+    </script>
+
+</body>
+</html>
