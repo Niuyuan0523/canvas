@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery-ui.js"></script>
+    <script src="js/jquery.jsplumb.js"></script>
+    <style type="text/css">
+        .dragActive { border:2px dotted orange; }
+        .dropHover { border:1px dotted red; }
+        .w {
+            border: 1px solid black;
+            background-color: #ddddff;
+            width: 80px;
+            height: 60px;
+            position: absolute;
+        }
+    .item {
+        padding: 16px;
+        position: absolute;
+        z-index: 4;
+        border: 1px solid #2e6f9a;
+        box-shadow: 2px 2px 19px #e0e0e0;
+        -o-box-shadow: 2px 2px 19px #e0e0e0;
+        -webkit-box-shadow: 2px 2px 19px #e0e0e0;
+        -moz-box-shadow: 2px 2px 19px #e0e0e0;
+        -moz-border-radius: 8px;
+        border-radius: 8px;
+        opacity: 0.8;
+        filter: alpha(opacity=80);
+        cursor: move;
+        background-color: white;
+        font-size: 11px;
+        -webkit-transition: background-color 0.25s ease-in;
+        -moz-transition: background-color 0.25s ease-in;
+        transition: background-color 0.25s ease-in;
+        background-color: #ddddff;
+    }
+    
+    /* 人口 begin */
+        #jx_rk {
+            left: 100px;
+            top: 50px;
+        }
+        #sqy_rk {
+            left: 100px;
+            top: 150px;
+        }
+        #wb_rk {
+            left: 100px;
+            top: 250px;
+        }
+        
+        
+        #rk_1 {
+            left: 350px;
+            top: 150px;
+        }
+        
+        #rk_2 {
+            left: 600px;
+            top: 150px;
+        }
+        
+        #rk_3 {
+            left: 850px;
+            top: 150px;
+        }
+        /* 人口 end */
+        
+        #fr_3 {
+            left: 850px;
+            top: 450px;
+        }
+        
+    </style>
+    <script>
+        jsPlumb.ready(function() {
+            jsPlumb.importDefaults({
+                DragOptions : { cursor: 'pointer', zIndex:2000 },
+                PaintStyle : { strokeStyle:'#666' },
+                EndpointStyle : { width:20, height:16, strokeStyle:'#666' },
+                Endpoint : "Rectangle",
+                Anchors : ["TopCenter"],
+                ConnectionOverlays: [
+               [ "Arrow", {
+                   location: 1,
+                   id: "arrow",
+                   //length: 14,
+                   foldback: 0.7,
+                   width: 14
+               } ],
+               [ "Label", { label: "line", id: "label", cssClass: "aLabel" }]
+           ]
+            });
+            var exampleDropOptions = {
+                hoverClass:"dropHover",
+                activeClass:"dragActive"
+            };
+      
+            var color1 = "#7AB02C";
+            //var color1 = "#ffa500";
+            
+            //人口 start
+            var jx_rk = {
+              uuid:"jx_rk",
+              anchor:"RightMiddle",//连接点的位置，可以被覆盖
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector : "Straight",//线条形状，直线
+                maxConnections:1,
+                isTarget:true,
+                dropOptions : { hoverClass: "dropHover", activeClass: "dragActive" },
+                overlays: [
+                  [ "Label", {
+                      location: [0.5, 1.5],
+                      label: "",
+                      cssClass: "endpointSourceLabel"
+                  }]
+              ]
+            };
+            
+            var sqy_rk = {
+              uuid:"sqy_rk",
+              anchor:"RightMiddle",//连接点的位置，可以被覆盖
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector : "Straight",//线条形状，直线
+                maxConnections:1,
+                isTarget:true,
+                dropOptions : exampleDropOptions,
+                overlays: [
+                  [ "Label", {
+                      location: [0.5, 1.5],
+                      label: "",
+                      cssClass: "endpointSourceLabel"
+                  } ]
+              ]
+            };
+            
+            var rk_1_1 = {
+              uuid:"rk_1_1",
+              anchor:"LeftMiddle",//连接点的位置，可以被覆盖
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector : "Straight",//线条形状，直线
+                maxConnections:-1,
+                isTarget:true,
+                dropOptions : exampleDropOptions
+            };
+            
+            
+            var rk_1_1_1 = {
+              uuid:"rk_1_1_1",
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector : "Straight",//线条形状，直线
+                maxConnections:-1,
+                isTarget:true,
+                dropOptions : exampleDropOptions
+            };
+            
+            var rk_1_1_3 = {
+              uuid:"rk_1_1_3",
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector : "Straight",//线条形状，直线
+                maxConnections:-1,
+                isTarget:true,
+                dropOptions : exampleDropOptions
+            };
+            
+            
+            var rk_1_2 = {
+              uuid:"rk_1_2",
+              anchor:"RightMiddle",//连接点的位置，可以被覆盖
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1 },//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector: [ "Flowchart", { stub: [40, 60], gap: 5, cornerRadius: 5, alwaysRespectStubs: true } ],
+                maxConnections:1,
+                isTarget:true,
+                dropOptions : exampleDropOptions
+            };        
+            jsPlumb.addEndpoint("jx_rk", jx_rk);
+            jsPlumb.addEndpoint("sqy_rk", sqy_rk);
+            
+            jsPlumb.addEndpoint("rk_1", rk_1_1);//中间点
+            
+            //左上角为起点，0.2表示相对x的偏移量，0.5表示相对y的偏移量
+            var anchors_1_1 = [[0, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0], [0.2, 0, 0, -1] ],
+                    maxConnectionsCallback = function(info) {
+                        alert("Cannot drop connection " + info.connection.id + " : maxConnections has been reached on Endpoint " + info.endpoint.id);
+                    };
+            
+            jsPlumb.addEndpoint("rk_1", {anchor:anchors_1_1}, rk_1_1_1);//上边点
+            
+            jsPlumb.addEndpoint("rk_1", rk_1_2);
+            
+            
+            //固定连线
+            var obj = jsPlumb.connect({uuids:["jx_rk", "rk_1_1_1"]});
+            obj.getOverlay("label").setLabel("镜像_2_人口");
+            
+            obj.bind("click", function (component, originalEvent) {
+                alert("镜像_2_人口")
+            });
+            
+            obj = jsPlumb.connect({uuids:["sqy_rk", "rk_1_1"]});
+            obj.getOverlay("label").setLabel("省全员_2_人口");
+            obj.bind("click", function (component, originalEvent) {
+                alert("省全员_2_人口")
+            });          
+            //人口 end
+            
+            
+            //法人 start            
+            var fr_3_2 = {
+              uuid:"fr_3_2",
+              anchor:"RightMiddle",//连接点的位置，可以被覆盖
+                endpoint:["Dot", { radius:6 }],//连接点的形状、大小
+                paintStyle:{ fillStyle:color1},//连接点的颜色
+                isSource:true,
+                scope:"green dot",//点击该颜色的时候，其余该颜色的点都会显示虚线框
+                connectorStyle:{ strokeStyle: "#5c96bc", lineWidth: 2, outlineColor: "transparent", outlineWidth: 4 },//点与点之间连线颜色
+                connector: [ "Flowchart", { stub: [40, 60], gap: 5, cornerRadius: 5, alwaysRespectStubs: true } ],
+                maxConnections:-1,
+                isTarget:true,
+                dropOptions : exampleDropOptions
+            };           
+            jsPlumb.addEndpoint("fr_3", fr_3_2);
+            //法人 end
+            
+            //绘制箭头
+          var arrowCommon = { foldback: 0.7, fillStyle: "gray", width: 14 },
+            overlays = [
+                [ "Arrow", { location: 1}, arrowCommon ],
+                [ "Arrow", { location: 0, direction: -1 }, arrowCommon ]//-1表示反向箭头
+            ];
+            
+            //人口到法人
+            jsPlumb.connect({uuids:["rk_1_2", "fr_3_2"], overlays:overlays}); 
+            
+            //可拖动
+            jsPlumb.draggable($('._jsPlumb_endpoint_anchor_'));            
+        });
+    </script>
+</head>
+<body>
+ <!-- 人口 begin -->
+ <div id="jx_rk" class="item">镜像</div>
+ <div id="sqy_rk" class="item">省全员</div>
+ 
+ <div id="rk_1" class="item">人口</div>
+ <!-- 人口 end -->
+ 
+ <!-- 法人 begin -->
+ <div id="fr_3" class="item">法人</div>
+ <!-- 法人 end -->
+ 
+</body>
+
+</html>
