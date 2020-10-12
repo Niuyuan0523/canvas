@@ -1,0 +1,131 @@
+<template>
+  <div class="sample-tutorial">
+    <gc-spread-sheets class="sample-spreadsheets" @workbookInitialized="initSpread">
+      <gc-worksheet></gc-worksheet>
+      <gc-worksheet :dataSource="datasource" :autoGenerateColumns="autoGenerateColumns"></gc-worksheet>
+    </gc-spread-sheets>
+    <div class="options-container">
+      This text box will display information about the different cell types that are interacted with.
+      <div class="option-row">
+        <textarea id="eventTrigger" style="width: 100%; height: 120px" v-model="message"></textarea>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Vue from "vue";
+import '@grapecity/spread-sheets-resources-zh';
+GC.Spread.Common.CultureManager.culture("zh-cn");
+import "@grapecity/spread-sheets-vue";
+import GC from "@grapecity/spread-sheets";
+import { getData } from "./data.js";
+import "./styles.css";
+const spreadNS = GC.Spread.Sheets;
+
+let App = Vue.extend({
+  name: "app",
+  data: function() {
+    return {
+      message: '',
+      autoGenerateColumns: false,
+      sheet: null
+    };
+  },
+  methods: {
+    initSpread(spread) {
+      const GCsheets = GC.Spread.Sheets;  
+      const sheet = spread.getSheet(0);
+      spread.bind(GCsheets.Events.ButtonClicked, (e, args) => {
+        const { sheet, row, col } = args;
+        const cellType = sheet.getCellType(row, col);
+        if (cellType instanceof GCsheets.CellTypes.Button) {
+          this.message += "You click a button.\n";
+        }
+        if (cellType instanceof GCsheets.CellTypes.CheckBox) {
+          this.message += "You click a check box.\n";
+        }
+        if (cellType instanceof GCsheets.CellTypes.HyperLink) {
+          this.message += "You click a hyperlink.\n";
+        }
+      });
+      spread.bind(GCsheets.Events.CellClick, (e, args) => {
+        const { sheet, row, col } = args;
+        const cellType = sheet.getCellType(row, col);
+        if (cellType instanceof GCsheets.CellTypes.ComboBox) {
+          this.message += "You click a combo box.\n";
+        }
+      });
+      
+      sheet.suspendPaint();
+
+      sheet.name('Basic Usage');
+      sheet.setColumnWidth(2, 140);
+      sheet.setColumnWidth(1, 120);
+      sheet.setRowHeight(1, 50);
+      const b0 = new GCsheets.CellTypes.Button();
+      b0.text("Margin");
+      b0.marginLeft(15);
+      b0.marginTop(7);
+      b0.marginRight(15);
+      b0.marginBottom(7);
+      sheet.setCellType(1, 2, b0, GCsheets.SheetArea.viewport);
+      sheet.setValue(1, 1, "ButtonCellType");
+
+      const c = new GCsheets.CellTypes.CheckBox();
+      c.isThreeState(false);
+      c.textTrue("Checked!");
+      c.textFalse("Check Me!");
+      sheet.setCellType(2, 2, c, GCsheets.SheetArea.viewport);
+      sheet.setValue(2, 1, "CheckBoxCellType");
+
+      const combo = new GCsheets.CellTypes.ComboBox();
+      combo.items([{ text: "Oranges", value: "11k" }, { text: "Apples", value: "15k" }, { text: "Grape", value: "100k" }]);
+      combo.editorValueType(GCsheets.CellTypes.EditorValueType.text);
+      sheet.getCell(3, 2, GCsheets.SheetArea.viewport).cellType(combo).value("Grape");
+      sheet.setValue(3, 1, "ComboBoxCellType");
+
+      const h = new GCsheets.CellTypes.HyperLink();
+      h.text("SpreadJS Overview");
+      sheet.setCellType(4, 2, h, GCsheets.SheetArea.viewport);
+      sheet.getCell(4, 2, GCsheets.SheetArea.viewport).value("http://www.grapecity.com/en/spreadjs/").hAlign(GCsheets.HorizontalAlign.center);
+      sheet.setValue(4, 1, "HyperLinkCellType");
+      sheet.resumePaint();
+
+      const sheet1 = spread.getSheet(1);
+      sheet1.name('DataBind');
+      sheet1.suspendPaint();
+      const _lines = ["Computers", "Washers", "Stoves"];
+      const _colors = ["Red", "Green", "Blue", "White"];
+      const _ratings = ["Terrible", "Bad", "Average", "Good", "Great", "Epic"];
+
+      const lineCellType = new GCsheets.CellTypes.ComboBox();
+      lineCellType.items(_lines);
+      const colorCellType = new GCsheets.CellTypes.ComboBox();
+      colorCellType.items(_colors);
+      const checkBoxCellType = new GCsheets.CellTypes.CheckBox();
+      const ratingCellType = new GCsheets.CellTypes.ComboBox();
+      ratingCellType.items(_ratings);
+
+      const colInfos = [
+          { name: "name", size: 100 },
+          { name: "line", cellType: lineCellType, size: 80 },
+          { name: "color", cellType: colorCellType },
+          { name: "discontinued", cellType: checkBoxCellType, size: 80 },
+          { name: "rating", cellType: ratingCellType }
+      ];
+      sheet1.bindColumns(colInfos);
+      sheet1.resumePaint();
+    }
+  },
+  computed: {
+    datasource: () => {
+      return getData();
+    }
+  }
+});
+
+new Vue({
+  render: h => h(App)
+}).$mount("#app");
+</script>
